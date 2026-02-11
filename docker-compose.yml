@@ -1,0 +1,67 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fcv-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fastcallvoip}
+      POSTGRES_USER: ${POSTGRES_USER:-fastcallvoip}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-CHANGE_ME_DB_PASSWORD}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks: [fcv]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: fcv-redis
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-CHANGE_ME_REDIS_PASSWORD}"]
+    volumes:
+      - ./data/redis:/data
+    networks: [fcv]
+    restart: unless-stopped
+
+  backend:
+    image: node:22-alpine
+    container_name: fcv-backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3001
+      JWT_SECRET: ${JWT_SECRET:-CHANGE_ME}
+      ENC_KEY_B64: ${ENC_KEY_B64:-CHANGE_ME}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://fastcallvoip:CHANGE_ME_DB_PASSWORD@postgres:5432/fastcallvoip}
+      REDIS_URL: ${REDIS_URL:-redis://:CHANGE_ME_REDIS_PASSWORD@redis:6379/0}
+      PBX_HOST: ${PBX_HOST:-192.168.88.200}
+      ARI_HTTP: ${ARI_HTTP:-http://192.168.88.200:8088}
+      ARI_APP: ${ARI_APP:-fastcallvoip}
+      ARI_USER: ${ARI_USER:-portalari}
+      ARI_PASS: ${ARI_PASS:-CHANGE_ME_ARI_PASSWORD}
+      SIP_REALM: ${SIP_REALM:-fastcallvoip.com}
+      WSS_URL: ${WSS_URL:-wss://wss.fastcallvoip.com/ws}
+    command: ["sh","-lc","npm install --no-audit --no-fund && node app.js"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [fcv]
+    restart: unless-stopped
+
+  frontend:
+    image: nginx:1.25-alpine
+    container_name: fcv-frontend
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html:ro
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [backend]
+    networks: [fcv]
+    restart: unless-stopped
+
+networks:
+  fcv:
+    name: fcv

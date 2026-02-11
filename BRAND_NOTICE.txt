@@ -1,0 +1,6 @@
+BRAND / UI ASSETS NOTICE
+-----------------------
+Files in this directory (PDF/PNG mockups) are brand/UI preview materials.
+They are NOT licensed under Apache-2.0 for reuse as branding/design.
+
+© 2026 GeorgeAD (georgerdp). All rights reserved for brand/UI assets.
