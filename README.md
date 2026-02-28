@@ -41,3 +41,6 @@ Apache-2.0 (see `LICENSE` and `NOTICE`).
 
 ## Brand / UI assets
 See `assets/BRAND_ASSETS.md`.
+
+## Russian deployment presentation
+- `docs/DEPLOYMENT_PRESENTATION_RU.md` — launch roadmap, market comparison, and visual architecture/tree diagrams for `pbx.fastcallvoip.com`.

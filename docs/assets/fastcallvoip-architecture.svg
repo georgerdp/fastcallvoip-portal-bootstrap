@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+  <defs>
+    <style>
+      .title { font: 700 34px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #e8f0ff; }
+      .subtitle { font: 500 18px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #9cb3df; }
+      .h2 { font: 700 20px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #f3f7ff; }
+      .txt { font: 500 16px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #d9e5ff; }
+      .small { font: 500 14px 'Inter', 'Segoe UI', Arial, sans-serif; fill: #b9c9ea; }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#031534"/>
+      <stop offset="100%" stop-color="#001024"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#102a56"/>
+      <stop offset="100%" stop-color="#0c2145"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="860" fill="url(#bg)"/>
+  <text x="60" y="70" class="title">FastCall VoIP Portal — архитектура развертывания</text>
+  <text x="60" y="104" class="subtitle">Домен: pbx.fastcallvoip.com · Маршруты: /login /phone /queues /extensions /trunks /routes /users</text>
+
+  <rect x="70" y="150" rx="18" ry="18" width="340" height="200" fill="url(#card)" stroke="#2f65c8" stroke-width="2"/>
+  <text x="95" y="188" class="h2">1) Клиентский слой</text>
+  <text x="95" y="220" class="txt">• React/Next GUI + Design System</text>
+  <text x="95" y="248" class="txt">• WebRTC softphone (/phone)</text>
+  <text x="95" y="276" class="txt">• Role-based UI (/users, /routes)</text>
+  <text x="95" y="304" class="txt">• Dark theme + KPI dashboards</text>
+
+  <rect x="530" y="150" rx="18" ry="18" width="340" height="200" fill="url(#card)" stroke="#2f65c8" stroke-width="2"/>
+  <text x="555" y="188" class="h2">2) API / BFF слой</text>
+  <text x="555" y="220" class="txt">• Auth API + JWT + RBAC</text>
+  <text x="555" y="248" class="txt">• PBX Adapter (AMI/ARI/SIP)</text>
+  <text x="555" y="276" class="txt">• Queue/Extensions/Trunks services</text>
+  <text x="555" y="304" class="txt">• Audit log + rate limiting</text>
+
+  <rect x="990" y="150" rx="18" ry="18" width="340" height="200" fill="url(#card)" stroke="#2f65c8" stroke-width="2"/>
+  <text x="1015" y="188" class="h2">3) Core telephony</text>
+  <text x="1015" y="220" class="txt">• Asterisk/FreeSWITCH cluster</text>
+  <text x="1015" y="248" class="txt">• SBC + RTP media handling</text>
+  <text x="1015" y="276" class="txt">• SIP Trunks providers</text>
+  <text x="1015" y="304" class="txt">• CDR pipeline</text>
+
+  <rect x="300" y="440" rx="18" ry="18" width="390" height="250" fill="url(#card)" stroke="#2f65c8" stroke-width="2"/>
+  <text x="325" y="478" class="h2">4) Data + observability</text>
+  <text x="325" y="510" class="txt">• PostgreSQL (users, config, ACL)</text>
+  <text x="325" y="538" class="txt">• Redis (sessions, call state cache)</text>
+  <text x="325" y="566" class="txt">• Prometheus + Grafana dashboards</text>
+  <text x="325" y="594" class="txt">• Loki/ELK + alerts in Telegram/Slack</text>
+  <text x="325" y="638" class="small">SLO: 99.95% · p95 API &lt; 250ms · MTTR &lt; 15 min</text>
+
+  <rect x="760" y="440" rx="18" ry="18" width="390" height="250" fill="url(#card)" stroke="#2f65c8" stroke-width="2"/>
+  <text x="785" y="478" class="h2">5) Infra + security</text>
+  <text x="785" y="510" class="txt">• Docker Compose → Kubernetes (phase 2)</text>
+  <text x="785" y="538" class="txt">• Nginx ingress + TLS + WAF</text>
+  <text x="785" y="566" class="txt">• GeoIP/Fail2Ban/anti-fraud rules</text>
+  <text x="785" y="594" class="txt">• CI/CD + blue-green deploy</text>
+  <text x="785" y="638" class="small">Backups: 15 min RPO · 1 hour RTO</text>
+
+  <line x1="410" y1="250" x2="530" y2="250" stroke="#42b3ff" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="870" y1="250" x2="990" y2="250" stroke="#42b3ff" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="700" y1="350" x2="700" y2="440" stroke="#42b3ff" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#42b3ff" />
+    </marker>
+  </defs>
+</svg>
