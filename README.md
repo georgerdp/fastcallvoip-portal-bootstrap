@@ -35,9 +35,20 @@ docker compose ps
 Open: `assets/gui/FastCallVoIP_OperatorPanel_UI_Mockups.pdf`
 
 
+## Interactive portal preview
+```bash
+cd docs/preview
+python3 -m http.server 4173
+# open http://localhost:4173
+```
+
+
 ## License
 Apache-2.0 (see `LICENSE` and `NOTICE`).
 
 
 ## Brand / UI assets
 See `assets/BRAND_ASSETS.md`.
+
+## Russian deployment presentation
+- `docs/DEPLOYMENT_PRESENTATION_RU.md` — launch roadmap, market comparison, and visual architecture/tree diagrams for `pbx.fastcallvoip.com`.
