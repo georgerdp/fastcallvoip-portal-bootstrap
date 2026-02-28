@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebPhone Popup Preview</title>
+  <style>
+    :root {
+      --bg: #020f2a;
+      --card: #000d2f;
+      --border: rgba(112, 139, 191, 0.28);
+      --text: #f2f6ff;
+      --muted: #79a0d8;
+      --accent: #1ce4a9;
+      --danger: #8f3244;
+      --secondary: #233657;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top, #012156 0%, #01061c 55%, #00030f 100%);
+      padding: 24px;
+      gap: 24px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .toolbar button {
+      border: 1px solid var(--border);
+      background: #0a1838;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .phone {
+      width: min(460px, 100%);
+      background: linear-gradient(180deg, #000a29 0%, #000624 100%);
+      border: 1px solid #113164;
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(34, 63, 108, 0.4);
+    }
+
+    .phone__screen {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      height: 150px;
+      margin-bottom: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      overflow: hidden;
+      color: #9eb8e5;
+      letter-spacing: 0.03em;
+      font-size: 30px;
+      font-weight: 300;
+      background: rgba(8, 16, 41, 0.7);
+    }
+
+    .input {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #0b1738;
+      color: #c8d9fa;
+      border-radius: 999px;
+      padding: 13px 18px;
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    .pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px 12px;
+    }
+
+    .key {
+      border: 1px solid var(--border);
+      background: #000822;
+      color: var(--text);
+      border-radius: 999px;
+      min-height: 58px;
+      font-size: 34px;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform .06s ease, background .18s ease;
+    }
+
+    .key:active { transform: scale(0.98); }
+    .key:hover { background: #111f47; }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-start;
+    }
+
+    .actions button {
+      border: 0;
+      border-radius: 999px;
+      min-height: 44px;
+      padding: 0 18px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .call { background: #10c88f; color: #00210f; }
+    .hang { background: var(--danger); }
+    .clear { background: var(--secondary); }
+
+    .hint {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button id="openPopup">Открыть как popup (460x760)</button>
+    <button id="openTab">Открыть как вкладку</button>
+  </div>
+
+  <section class="phone" aria-label="WebPhone preview">
+    <div class="phone__screen" id="screen">Ready</div>
+    <input id="destination" class="input" placeholder="Destination" />
+
+    <div class="pad" id="pad"></div>
+
+    <div class="actions">
+      <button class="call" id="call">Call</button>
+      <button class="hang" id="hang">Hang up</button>
+      <button class="clear" id="clear">Clear</button>
+    </div>
+
+    <p class="hint">Audio via Web</p>
+  </section>
+
+  <script>
+    const digits = ['1','2','3','4','5','6','7','8','9','*','0','#'];
+    const pad = document.getElementById('pad');
+    const input = document.getElementById('destination');
+    const screen = document.getElementById('screen');
+
+    const updateScreen = (text) => {
+      screen.textContent = text || 'Ready';
+    };
+
+    digits.forEach((d) => {
+      const btn = document.createElement('button');
+      btn.className = 'key';
+      btn.type = 'button';
+      btn.textContent = d;
+      btn.addEventListener('click', () => {
+        input.value += d;
+        updateScreen(input.value);
+      });
+      pad.appendChild(btn);
+    });
+
+    document.getElementById('clear').addEventListener('click', () => {
+      input.value = '';
+      updateScreen('Ready');
+    });
+
+    document.getElementById('call').addEventListener('click', () => {
+      const target = input.value.trim() || 'Destination required';
+      updateScreen('Calling: ' + target);
+    });
+
+    document.getElementById('hang').addEventListener('click', () => {
+      updateScreen('Call ended');
+    });
+
+    document.getElementById('openPopup').addEventListener('click', () => {
+      const features = 'popup=yes,width=460,height=760,resizable=yes,scrollbars=no';
+      window.open(window.location.href, 'webphonePopup', features);
+    });
+
+    document.getElementById('openTab').addEventListener('click', () => {
+      window.open(window.location.href, '_blank');
+    });
+  </script>
+</body>
+</html>

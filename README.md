@@ -34,6 +34,13 @@ docker compose ps
 ## GUI Preview
 Open: `assets/gui/FastCallVoIP_OperatorPanel_UI_Mockups.pdf`
 
+## Webphone popup preview (interactive)
+Open a local preview and click through the keypad/buttons:
+
+```bash
+python3 -m http.server 4173
+# then open http://localhost:4173/docs/webphone-preview.html
+```
 
 ## License
 Apache-2.0 (see `LICENSE` and `NOTICE`).
