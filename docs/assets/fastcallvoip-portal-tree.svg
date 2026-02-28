@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <defs>
+    <style>
+      .title { font: 700 34px 'Inter', Arial, sans-serif; fill: #eff5ff; }
+      .nodeTitle { font: 700 20px 'Inter', Arial, sans-serif; fill: #f5f9ff; }
+      .nodeText { font: 500 15px 'Inter', Arial, sans-serif; fill: #c6d8ff; }
+      .url { font: 600 15px 'Inter', Arial, sans-serif; fill: #61c4ff; }
+    </style>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#04183a"/>
+      <stop offset="100%" stop-color="#011229"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1400" height="900" fill="url(#bg)"/>
+  <text x="50" y="62" class="title">IA-древо GUI портала FastCall VoIP</text>
+
+  <rect x="520" y="105" width="360" height="90" rx="16" fill="#0f2a57" stroke="#2f65c8" stroke-width="2"/>
+  <text x="550" y="140" class="nodeTitle">Root /</text>
+  <text x="550" y="168" class="url">https://pbx.fastcallvoip.com</text>
+
+  <g>
+    <rect x="120" y="280" width="250" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="145" y="316" class="nodeTitle">/login</text>
+    <text x="145" y="342" class="nodeText">Auth, MFA, SSO</text>
+    <text x="145" y="366" class="nodeText">Recovery + invite flow</text>
+  </g>
+
+  <g>
+    <rect x="410" y="280" width="250" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="435" y="316" class="nodeTitle">/phone</text>
+    <text x="435" y="342" class="nodeText">WebRTC Dialer</text>
+    <text x="435" y="366" class="nodeText">Hold/transfer/record</text>
+  </g>
+
+  <g>
+    <rect x="700" y="280" width="250" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="725" y="316" class="nodeTitle">/queues</text>
+    <text x="725" y="342" class="nodeText">Realtime queues</text>
+    <text x="725" y="366" class="nodeText">SLA and agent states</text>
+  </g>
+
+  <g>
+    <rect x="990" y="280" width="250" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="1015" y="316" class="nodeTitle">/users</text>
+    <text x="1015" y="342" class="nodeText">RBAC + invites</text>
+    <text x="1015" y="366" class="nodeText">Audit trail</text>
+  </g>
+
+  <g>
+    <rect x="250" y="540" width="260" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="275" y="576" class="nodeTitle">/extensions</text>
+    <text x="275" y="602" class="nodeText">SIP/WebRTC endpoints</text>
+    <text x="275" y="626" class="nodeText">Provisioning templates</text>
+  </g>
+
+  <g>
+    <rect x="570" y="540" width="260" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="595" y="576" class="nodeTitle">/trunks</text>
+    <text x="595" y="602" class="nodeText">Provider config</text>
+    <text x="595" y="626" class="nodeText">Cost + failover policy</text>
+  </g>
+
+  <g>
+    <rect x="890" y="540" width="260" height="120" rx="16" fill="#102a56" stroke="#2f65c8"/>
+    <text x="915" y="576" class="nodeTitle">/routes</text>
+    <text x="915" y="602" class="nodeText">Inbound/outbound rules</text>
+    <text x="915" y="626" class="nodeText">Emergency + time rules</text>
+  </g>
+
+  <line x1="700" y1="195" x2="245" y2="280" stroke="#4ec2ff" stroke-width="3"/>
+  <line x1="700" y1="195" x2="535" y2="280" stroke="#4ec2ff" stroke-width="3"/>
+  <line x1="700" y1="195" x2="825" y2="280" stroke="#4ec2ff" stroke-width="3"/>
+  <line x1="700" y1="195" x2="1115" y2="280" stroke="#4ec2ff" stroke-width="3"/>
+
+  <line x1="535" y1="400" x2="380" y2="540" stroke="#4ec2ff" stroke-width="3"/>
+  <line x1="825" y1="400" x2="700" y2="540" stroke="#4ec2ff" stroke-width="3"/>
+  <line x1="825" y1="400" x2="1020" y2="540" stroke="#4ec2ff" stroke-width="3"/>
+
+  <text x="50" y="835" class="nodeText">UX-принцип: 3 клика до ключевого действия · единая темная тема · live-виджеты в каждой зоне.</text>
+</svg>
