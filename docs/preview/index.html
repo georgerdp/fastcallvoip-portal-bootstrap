@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastCall VoIP Portal Preview</title>
+  <style>
+    :root {
+      --bg: #031534;
+      --bg-2: #00142f;
+      --card: #112b59;
+      --card-2: #0c2247;
+      --text: #e7efff;
+      --muted: #9cb3df;
+      --accent: #2e8cff;
+      --ok: #1fce75;
+      --warn: #f5c048;
+      --danger: #f35d6b;
+      --border: #2d62c5;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bg), var(--bg-2));
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid #1f4d9f;
+      background: rgba(2, 20, 46, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand { font-weight: 800; font-size: 1.2rem; }
+    .brand span { color: #5bc4ff; }
+
+    nav { display: flex; flex-wrap: wrap; gap: 10px; }
+    .nav-btn {
+      border: 1px solid var(--border);
+      background: #0c2855;
+      color: #d8e6ff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+    .nav-btn:hover { transform: translateY(-1px); background: #13408a; }
+    .nav-btn.active { background: var(--accent); border-color: #66b2ff; color: #fff; }
+
+    main { max-width: 1300px; margin: 24px auto; padding: 0 20px 30px; }
+    .topline { display: flex; justify-content: space-between; align-items: end; gap: 12px; }
+    h1 { margin: 0 0 6px; }
+    .muted { color: var(--muted); }
+
+    .route {
+      margin-top: 16px;
+      display: none;
+      animation: fade 220ms ease;
+    }
+    .route.active { display: block; }
+
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap: 14px; margin: 14px 0 18px; }
+    .card {
+      background: linear-gradient(140deg, var(--card), var(--card-2));
+      border: 1px solid #2a5ebf;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
+    }
+    .kpi { font-size: 2rem; font-weight: 800; margin-top: 8px; }
+    .ok { color: var(--ok); } .warn { color: var(--warn); } .danger { color: var(--danger); }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid #2a5ebf;
+    }
+    .table th, .table td {
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid #224b96;
+      background: #102a56;
+    }
+    .table th { background: #0a1d3f; }
+
+    .phone {
+      margin: 18px auto;
+      max-width: 430px;
+      padding: 16px;
+      border: 1px solid #315fb0;
+      border-radius: 20px;
+      background: #06173a;
+    }
+    #dial {
+      width: 100%;
+      margin: 10px 0 14px;
+      border-radius: 12px;
+      border: 1px solid #355fa9;
+      background: #091f45;
+      color: #fff;
+      padding: 12px;
+      font-size: 1.05rem;
+    }
+    .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .pad button {
+      height: 56px;
+      border-radius: 999px;
+      border: 1px solid #315ea6;
+      background: #081b3f;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .actions { display: flex; gap: 10px; margin-top: 14px; }
+    .actions button { flex: 1; border: none; border-radius: 999px; padding: 12px; font-weight: 700; cursor: pointer; }
+    .call { background: #23c678; color: #01270f; }
+    .hangup { background: #ef5e72; color: #fff; }
+    .clear { background: #3d4f73; color: #fff; }
+
+    .note {
+      margin-top: 16px;
+      border-left: 4px solid #53beff;
+      padding: 10px 12px;
+      color: #b8cff6;
+      background: rgba(12, 37, 78, 0.6);
+      border-radius: 8px;
+    }
+
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } header { display:block; } nav { margin-top: 12px; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">FastCall <span>VoIP Portal</span> — Live Preview</div>
+  <nav id="nav"></nav>
+</header>
+
+<main>
+  <div class="topline">
+    <div>
+      <h1 id="title">Dashboard Preview</h1>
+      <div class="muted" id="path">https://pbx.fastcallvoip.com/login/</div>
+    </div>
+    <div class="muted">Статус стенда: <span class="ok">● live UI mock</span></div>
+  </div>
+
+  <section class="route active" data-route="login">
+    <div class="card" style="max-width: 480px; margin-top: 16px;">
+      <h3>Вход в портал</h3>
+      <p class="muted">MFA, SSO и recovery будут в production auth.</p>
+      <input id="fake-user" placeholder="Email или username" style="width:100%;padding:10px;border-radius:10px;border:1px solid #315ea6;background:#082047;color:white;margin-bottom:10px;">
+      <input type="password" placeholder="Пароль" style="width:100%;padding:10px;border-radius:10px;border:1px solid #315ea6;background:#082047;color:white;margin-bottom:10px;">
+      <button class="nav-btn active" id="signin">Войти</button>
+      <div class="note">Клик на кнопку переключает в /phone для демо пользовательского флоу.</div>
+    </div>
+  </section>
+
+  <section class="route" data-route="phone">
+    <div class="phone">
+      <h3 style="margin: 4px 0;">WebPhone</h3>
+      <div class="muted">SIP: 601@signal.fastcallvoip.com</div>
+      <input id="dial" placeholder="Введите номер назначения" />
+      <div class="pad" id="pad"></div>
+      <div class="actions">
+        <button class="call">Call</button>
+        <button class="hangup">Hang up</button>
+        <button class="clear" id="clear">Clear</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="route" data-route="queues">
+    <div class="grid">
+      <div class="card"><div class="muted">Calls waiting</div><div class="kpi warn">12</div></div>
+      <div class="card"><div class="muted">SLA 20s</div><div class="kpi ok">91%</div></div>
+      <div class="card"><div class="muted">Agents online</div><div class="kpi">46</div></div>
+      <div class="card"><div class="muted">Missed last hour</div><div class="kpi danger">8</div></div>
+    </div>
+    <table class="table">
+      <tr><th>Queue</th><th>Waiting</th><th>Avg wait</th><th>Status</th></tr>
+      <tr><td>Sales</td><td>4</td><td>00:18</td><td class="ok">Healthy</td></tr>
+      <tr><td>Support</td><td>6</td><td>00:52</td><td class="warn">At risk</td></tr>
+      <tr><td>VIP</td><td>2</td><td>00:09</td><td class="ok">Healthy</td></tr>
+    </table>
+  </section>
+
+  <section class="route" data-route="extensions">
+    <table class="table" style="margin-top: 16px;">
+      <tr><th>Ext</th><th>Type</th><th>Status</th><th>Actions</th></tr>
+      <tr><td>7001</td><td>MicroSIP</td><td class="ok">Online</td><td>Edit / Disable / Delete</td></tr>
+      <tr><td>7002</td><td>WebRTC</td><td class="ok">Online</td><td>Edit / Disable / Delete</td></tr>
+      <tr><td>7003</td><td>SIP</td><td class="danger">Offline</td><td>Edit / Enable / Delete</td></tr>
+    </table>
+  </section>
+
+  <section class="route" data-route="trunks">
+    <table class="table" style="margin-top: 16px;">
+      <tr><th>Provider</th><th>Host</th><th>Priority</th><th>Failover</th><th>Status</th></tr>
+      <tr><td>SIP-Trunk-1</td><td>sip1.provider.net</td><td>1</td><td>to Trunk-2</td><td class="ok">Connected</td></tr>
+      <tr><td>SIP-Trunk-2</td><td>sip2.provider.net</td><td>2</td><td>to Trunk-3</td><td class="ok">Connected</td></tr>
+      <tr><td>Emergency-Trunk</td><td>sip.emergency.net</td><td>0</td><td>none</td><td class="ok">Connected</td></tr>
+    </table>
+  </section>
+
+  <section class="route" data-route="routes">
+    <table class="table" style="margin-top: 16px;">
+      <tr><th>Priority</th><th>Name</th><th>Prefix</th><th>Trunk</th><th>Status</th></tr>
+      <tr><td>1</td><td>Local</td><td>9</td><td>SIP-Trunk-1</td><td class="ok">Enabled</td></tr>
+      <tr><td>2</td><td>International</td><td>00</td><td>SIP-Trunk-2</td><td class="ok">Enabled</td></tr>
+      <tr><td>0</td><td>Emergency</td><td>911</td><td>Emergency-Trunk</td><td class="ok">Enabled</td></tr>
+    </table>
+  </section>
+
+  <section class="route" data-route="users">
+    <table class="table" style="margin-top: 16px;">
+      <tr><th>User</th><th>Email</th><th>Role</th><th>Status</th><th>Last login</th></tr>
+      <tr><td>admin</td><td>admin@fastcallvoip.com</td><td>Admin</td><td class="ok">Active</td><td>Today 10:30</td></tr>
+      <tr><td>manager1</td><td>manager@fastcallvoip.com</td><td>Manager</td><td class="ok">Active</td><td>Today 09:15</td></tr>
+      <tr><td>guest1</td><td>guest@fastcallvoip.com</td><td>Guest</td><td class="danger">Inactive</td><td>Yesterday 12:00</td></tr>
+    </table>
+  </section>
+</main>
+
+<script>
+  const pages = ["login", "phone", "queues", "extensions", "trunks", "routes", "users"];
+  const nav = document.getElementById('nav');
+  const title = document.getElementById('title');
+  const path = document.getElementById('path');
+  const sections = [...document.querySelectorAll('.route')];
+
+  function routeTo(name) {
+    sections.forEach(s => s.classList.toggle('active', s.dataset.route === name));
+    [...nav.children].forEach(b => b.classList.toggle('active', b.dataset.to === name));
+    title.textContent = `Preview: /${name}`;
+    path.textContent = `https://pbx.fastcallvoip.com/${name}/`;
+    history.replaceState({}, '', `#${name}`);
+  }
+
+  pages.forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'nav-btn';
+    b.textContent = `/${p}`;
+    b.dataset.to = p;
+    b.onclick = () => routeTo(p);
+    nav.appendChild(b);
+  });
+
+  document.getElementById('signin').onclick = () => routeTo('phone');
+
+  const pad = document.getElementById('pad');
+  const dial = document.getElementById('dial');
+  [1,2,3,4,5,6,7,8,9,'*',0,'#'].forEach(n => {
+    const btn = document.createElement('button');
+    btn.textContent = n;
+    btn.onclick = () => dial.value += String(n);
+    pad.appendChild(btn);
+  });
+  document.getElementById('clear').onclick = () => dial.value = '';
+
+  const initial = location.hash.replace('#','');
+  routeTo(pages.includes(initial) ? initial : 'login');
+</script>
+</body>
+</html>

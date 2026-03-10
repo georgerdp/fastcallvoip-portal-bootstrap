@@ -42,6 +42,14 @@ python3 -m http.server 4173
 # then open http://localhost:4173/docs/webphone-preview.html
 ```
 
+## Interactive portal preview
+```bash
+cd docs/preview
+python3 -m http.server 4173
+# open http://localhost:4173
+```
+
+
 ## License
 Apache-2.0 (see `LICENSE` and `NOTICE`).
 
